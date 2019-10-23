@@ -13,8 +13,8 @@ class <KotlinClass> {
 ### Use with string interpolation
 Signature for .debug
 ```kotlin
-    fun debug(message: () -> Any?)
-    fun debug(throwable: Throwable, message: () -> Any? = { null })
+    fun debug(marker: String? = null, message: () -> Any?)
+    fun debug(throwable: Throwable, marker: String? = null, message: () -> Any? = { null })
 ```
 Example
 ```kotlin
@@ -23,4 +23,33 @@ Example
         log.debug(ex)
         log.debug(ex) { "debugException()" }
     }
+```
+Example With Marker
+```kotlin
+    fun debug() {
+        log.debug("MARKER") { "debugNormal()" }
+        log.debug(ex, "MARKER")
+        log.debug(ex, "MARKER") { "debugException()" }
+    }
+```
+```
+[%marker]
+```
+### Using MDC
+Signature for MDC
+```kotlin
+    fun saveMdcEntry(key: String, value: Any?)
+    fun loadMdcEntry(key: String): String?
+    fun removeMdcEntry(key: String)
+    fun clearMdc()
+```
+Example MDC usage
+```kotlin
+    fun setUpMdc() {
+        mdc().saveMdcEntry("x-parent", parent)
+        mdc().saveMdcEntry("x-child", child)
+    }
+```
+```
+[%X{x-parent},%X{x-child}]
 ```
