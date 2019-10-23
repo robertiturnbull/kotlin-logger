@@ -1,8 +1,10 @@
 package mu.robertiturnbull.kotlin.logging
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import java.math.BigDecimal
 
+@ExtendWith(MdcExtension::class)
 internal class KotlinLoggerSlf4jTest {
     companion object : KotlinLogging()
 
@@ -74,6 +76,18 @@ internal class KotlinLoggerSlf4jTest {
     fun testCategoryLogger() {
         val logger = KotlinLoggerSlf4j("TestCategory")
         logger.warn { "testCategoryLogger(TestCategory)" }
+    }
+
+    @Test
+    fun testMarker() {
+        log.info("testMarker") { "testMarker()" }
+    }
+
+    @Test
+    fun testMdc(){
+        log.info { "Line 1" }
+        log.info { "Line 2" }
+        log.info { "Line 3" }
     }
 
 }
